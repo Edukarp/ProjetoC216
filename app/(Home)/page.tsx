@@ -1,4 +1,4 @@
-import { Search, Film, Star, Smartphone, Filter, Info, Heart, Globe } from 'lucide-react'
+import { Search, Film, Star, Smartphone, Info, Heart, Globe } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -76,18 +76,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-20 px-4 bg-black">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-black border-2 border-red-500/30 rounded-lg p-6 text-center hover:border-red-500 transition-colors duration-300">
-              <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Filter className="w-8 h-8 text-red-500" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Busca rápida e filtros avançados</h3>
-              <p className="text-gray-400">Encontre exatamente o que procura com nossos filtros inteligentes</p>
-            </div>
-            
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-black border-2 border-red-500/30 rounded-lg p-6 text-center hover:border-red-500 transition-colors duration-300">
               <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Info className="w-8 h-8 text-red-500" />
