@@ -1,5 +1,6 @@
 import { Search, Film, Star, Smartphone, Info, Heart, Globe } from 'lucide-react'
 import Footer from '../components/footer'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -14,9 +15,11 @@ export default function Home() {
           <p className="text-xl md:text-2xl text-white mb-8 leading-relaxed">
             Descubra uma vasta coleção atualizada e navegue com facilidade
           </p>
-          <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 transform hover:scale-105">
-            Explore agora
-          </button>
+          <Link href="/register">
+            <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 transform hover:scale-105">
+              Explore agora
+            </button>
+          </Link>
         </div>
       </section>
 
@@ -37,7 +40,7 @@ export default function Home() {
                 <p className="text-gray-300">Interface pensada para facilitar sua busca e descoberta de conteúdo</p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
@@ -49,7 +52,7 @@ export default function Home() {
                 <p className="text-gray-300">Desde clássicos até lançamentos, encontre exatamente o que procura</p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
@@ -61,7 +64,7 @@ export default function Home() {
                 <p className="text-gray-300">Sempre em dia com os últimos lançamentos e novidades do cinema</p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
@@ -87,7 +90,7 @@ export default function Home() {
               <h3 className="text-xl font-semibold text-white mb-3">Detalhes completos de filmes e séries</h3>
               <p className="text-gray-400">Informações detalhadas sobre elenco, sinopse, avaliações e muito mais</p>
             </div>
-            
+
             <div className="bg-black border-2 border-red-500/30 rounded-lg p-6 text-center hover:border-red-500 transition-colors duration-300">
               <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="w-8 h-8 text-red-500" />
@@ -95,7 +98,7 @@ export default function Home() {
               <h3 className="text-xl font-semibold text-white mb-3">Recomendação personalizada</h3>
               <p className="text-gray-400">Sugestões baseadas no seu gosto e histórico de visualização</p>
             </div>
-            
+
             <div className="bg-black border-2 border-red-500/30 rounded-lg p-6 text-center hover:border-red-500 transition-colors duration-300">
               <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Globe className="w-8 h-8 text-red-500" />
