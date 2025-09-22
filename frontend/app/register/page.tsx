@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation';
 import Footer from '../components/footer'
 
 export default function LoginRegisterPage() {
@@ -13,6 +14,14 @@ export default function LoginRegisterPage() {
     confirmPassword: ''
   })
   const [message, setMessage] = useState<string | null>(null)
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      router.push('/catalog');
+    }
+  }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -51,8 +60,27 @@ export default function LoginRegisterPage() {
         console.log(error);
       }
     } else {
-      // TODO: Lógica de login 
-      setMessage('Login não implementado ainda.')
+      try {
+        const res = await fetch('http://localhost:3003/api/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('authToken', data.token); 
+          setMessage('Login realizado com sucesso!');
+          router.push('/catalog');
+        } else {
+          setMessage(data.message || 'Erro ao fazer login.');
+        }
+      } catch (error) {
+        setMessage('Erro de conexão com o servidor.');
+        console.log(error);
+      }
     }
   }
 
