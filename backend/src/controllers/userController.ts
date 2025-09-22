@@ -32,9 +32,13 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Credenciais inválidas." });
     }
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not defined in environment variables.");
+    }
     const token = jwt.sign(
       { userId: user._id, email: user.email },
-      process.env.JWT_SECRET || "minha_chave_secreta",
+      jwtSecret,
       { expiresIn: "7d" }
     );
 
