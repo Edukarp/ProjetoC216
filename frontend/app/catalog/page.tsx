@@ -1,6 +1,6 @@
-import { UserCircle } from 'lucide-react'
 import Footer from '../components/footer'
 import MovieCarousel from './components/carousel'
+import UserMenu from '../components/userMenu'
 
 export default function CatalogPage() {
 
@@ -123,7 +123,7 @@ export default function CatalogPage() {
 
             <nav className="flex items-center justify-between px-8 py-6 bg-black border-b border-red-600">
                 <h1 className="text-3xl font-bold text-red-500">MyCatalog</h1>
-                <UserCircle className="text-white w-8 h-8 cursor-pointer hover:text-red-500 transition-colors" />
+                <UserMenu />
             </nav>
 
             <section className="py-8 px-4 border-t border-red-600">

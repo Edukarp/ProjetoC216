@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 import { useRouter } from 'next/navigation';
 import Footer from '../components/footer'
+import Cookies from 'js-cookie';
 
 export default function LoginRegisterPage() {
   const [activeTab, setActiveTab] = useState('login')
@@ -15,13 +16,6 @@ export default function LoginRegisterPage() {
   })
   const [message, setMessage] = useState<string | null>(null)
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      router.push('/catalog');
-    }
-  }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -71,7 +65,7 @@ export default function LoginRegisterPage() {
         });
         const data = await res.json();
         if (res.ok) {
-          localStorage.setItem('authToken', data.token); 
+          Cookies.set('authToken', data.token, { expires: 7 }); // salva por 7 dias
           setMessage('Login realizado com sucesso!');
           router.push('/catalog');
         } else {
