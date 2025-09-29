@@ -1,5 +1,5 @@
 type Movie = {
-  id: number;
+  _id: string;
   title: string;
   type: string;
   genre: string[];
@@ -8,7 +8,6 @@ type Movie = {
   synopsis: string;
   poster: string;
 };
-
 interface MovieCarouselProps {
   title: string;
   items: Movie[];
@@ -22,7 +21,7 @@ const MovieCarousel = ({ title, items, renderStars }: MovieCarouselProps) => {
       <div className="flex overflow-x-auto gap-6 pb-4">
         {items.map(movie => (
           <div
-            key={movie.id}
+            key={movie._id}
             className="flex-shrink-0 w-56 sm:w-64 md:w-84 bg-black border border-red-600 rounded-lg overflow-hidden hover:border-white transition-colors duration-300"
           >
             <img
