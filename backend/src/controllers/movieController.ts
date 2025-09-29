@@ -26,7 +26,7 @@ export const getAllMovies = async (_req: Request, res: Response) => {
 // Buscar filme/série por ID
 export const getMovieById = async (req: Request, res: Response) => {
   try {
-    const movie = await Movie.findOne({ id: req.params._id });
+    const movie = await Movie.findById(req.params.id );
     if (!movie)
       return res.status(404).json({ message: "Filme/série não encontrado." });
     res.json(movie);
@@ -72,8 +72,8 @@ export const getBestRatedMovies = async (_req: Request, res: Response) => {
 // Atualizar filme/série
 export const updateMovie = async (req: Request, res: Response) => {
   try {
-    const movie = await Movie.findOneAndUpdate(
-      { id: req.params._id },
+    const movie = await Movie.findByIdAndUpdate(
+      req.params.id ,
       req.body,
       { new: true }
     );
@@ -88,7 +88,7 @@ export const updateMovie = async (req: Request, res: Response) => {
 // Remover filme/série
 export const deleteMovie = async (req: Request, res: Response) => {
   try {
-    const movie = await Movie.findOneAndDelete({ id: req.params._id });
+    const movie = await Movie.findByIdAndDelete(req.params.id );
     if (!movie)
       return res.status(404).json({ message: "Filme/série não encontrado." });
     res.json({ message: "Filme/série removido com sucesso." });

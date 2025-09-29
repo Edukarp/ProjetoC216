@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 type Movie = {
   _id: string;
   title: string;
@@ -20,9 +22,11 @@ const MovieCarousel = ({ title, items, renderStars }: MovieCarouselProps) => {
       <h2 className="text-2xl font-bold text-red-500 mb-4">{title}</h2>
       <div className="flex overflow-x-auto gap-6 pb-4">
         {items.map(movie => (
-          <div
+          <Link
             key={movie._id}
+            href={`/catalog/${movie._id}`}
             className="flex-shrink-0 w-56 sm:w-64 md:w-84 bg-black border border-red-600 rounded-lg overflow-hidden hover:border-white transition-colors duration-300"
+            style={{ textDecoration: 'none' }}
           >
             <img
               src={movie.poster}
@@ -39,7 +43,7 @@ const MovieCarousel = ({ title, items, renderStars }: MovieCarouselProps) => {
               </div>
               <p className="text-white text-sm leading-relaxed">{movie.synopsis}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
