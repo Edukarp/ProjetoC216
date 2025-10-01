@@ -33,7 +33,8 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
   const movie = await getMovie(params.id);
   if (!movie) return notFound();
 
-  const token = cookies().get('authToken')?.value;
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get('authToken')?.value;
   let isFavorite = false;
   if (token) {
     const favorites = await getUserFavorites(token);
@@ -67,3 +68,4 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
       </div>
     );
   }
+}
