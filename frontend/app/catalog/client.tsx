@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import MovieCarousel from './components/carousel';
+import Cookies from 'js-cookie';
 
 type Movie = {
   _id: string;
@@ -16,15 +17,31 @@ type Movie = {
 
 export default function CatalogClient() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [favorites, setFavorites] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3003/api/movies')
-      .then(res => res.json())
-      .then(data => {
-        setMovies(data);
-        setLoading(false);
-      });
+    async function fetchData() {
+      const res = await fetch('http://localhost:3003/api/movies');
+      const allMovies = await res.json();
+
+      // Buscar favoritos do usuário
+      const token = Cookies.get('authToken');
+      let favoriteIds: string[] = [];
+      if (token) {
+        const favRes = await fetch('http://localhost:3003/api/users/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (favRes.ok) {
+          const user = await favRes.json();
+          favoriteIds = user.favorites || [];
+        }
+      }
+      setMovies(allMovies);
+      setFavorites(allMovies.filter(m => favoriteIds.includes(m._id)));
+      setLoading(false);
+    }
+    fetchData();
   }, []);
 
   const renderStars = (rating: number) => {
@@ -50,6 +67,9 @@ export default function CatalogClient() {
 
   return (
     <section className="py-8 px-4 border-t border-red-600">
+      {favorites.length > 0 && (
+        <MovieCarousel title="Seus Favoritos" items={favorites} renderStars={renderStars} />
+      )}
       <MovieCarousel title="Recomendados" items={recommended} renderStars={renderStars} />
       <MovieCarousel title="Melhores avaliados" items={bestRated} renderStars={renderStars} />
       <MovieCarousel title="Outros títulos" items={others} renderStars={renderStars} />
