@@ -38,7 +38,7 @@ export default function CatalogClient() {
         }
       }
       setMovies(allMovies);
-      setFavorites(allMovies.filter(m => favoriteIds.includes(m._id)));
+      setFavorites(allMovies.filter((m: Movie) => favoriteIds.includes(m._id)));
       setLoading(false);
     }
     fetchData();
