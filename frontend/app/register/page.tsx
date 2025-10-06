@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Footer from '../components/footer'
 import Cookies from 'js-cookie';
 
+const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003';
+
 export default function LoginRegisterPage() {
   const [activeTab, setActiveTab] = useState('login')
   const [rememberMe, setRememberMe] = useState(false)
@@ -33,7 +35,7 @@ export default function LoginRegisterPage() {
         return
       }
       try {
-        const res = await fetch('http://localhost:3003/api/users/register', {
+        const res = await fetch(`${apiUrl}/api/users/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -55,7 +57,7 @@ export default function LoginRegisterPage() {
       }
     } else {
       try {
-        const res = await fetch('http://localhost:3003/api/users/login', {
+        const res = await fetch(`${apiUrl}/api/users/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

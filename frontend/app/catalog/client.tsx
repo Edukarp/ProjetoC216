@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import MovieCarousel from './components/carousel';
 import Cookies from 'js-cookie';
 
+const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003';
+
 type Movie = {
   _id: string;
   title: string;
@@ -22,14 +24,14 @@ export default function CatalogClient() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch('http://localhost:3003/api/movies');
+      const res = await fetch(`${apiUrl}/api/movies`);
       const allMovies = await res.json();
 
       // Buscar favoritos do usuário
       const token = Cookies.get('authToken');
       let favoriteIds: string[] = [];
       if (token) {
-        const favRes = await fetch('http://localhost:3003/api/users/me', {
+        const favRes = await fetch(`${apiUrl}/api/users/me`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (favRes.ok) {

@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
 import FavoriteButton from '../components/favoriteButton';
 
+const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003';
+
 interface Movie {
   _id: string;
   title: string;
@@ -14,13 +16,13 @@ interface Movie {
 }
 
 async function getMovie(id: string): Promise<Movie | null> {
-  const res = await fetch(`http://localhost:3003/api/movies/${id}`, { cache: 'no-store' });
+  const res = await fetch(`${apiUrl}/api/movies/${id}`, { cache: 'no-store' });
   if (!res.ok) return null;
   return res.json();
 }
 
 async function getUserFavorites(token: string): Promise<string[]> {
-  const res = await fetch('http://localhost:3003/api/users/me', {
+  const res = await fetch(`${apiUrl}/api/users/me`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store'
   });
