@@ -27,7 +27,7 @@ export default function FavoriteButton({ movieId, isFavoriteInitial }: { movieId
   return (
     <button
       onClick={handleFavorite}
-      className="absolute top-4 right-4 z-10 bg-black/60 rounded-full p-2 hover:bg-red-600 transition"
+      className="z-10 bg-black/60 rounded-full p-2  transition cursor-pointer"
       title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
     >
       {isFavorite
