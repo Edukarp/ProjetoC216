@@ -3,6 +3,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { UserCircle, X } from 'lucide-react';
+import MovieForm, { MovieFormState } from '../catalog/components/movieForm';
+
+const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003';
 
 export default function UserMenu() {
     const [open, setOpen] = useState(false);
@@ -51,11 +54,10 @@ export default function UserMenu() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleFormSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleFormSubmit = async (form: MovieFormState) => {
         setMessage(null);
         try {
-            const res = await fetch('http://localhost:3003/api/movies', {
+            const res = await fetch(`${apiUrl}/api/movies`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -70,7 +72,6 @@ export default function UserMenu() {
             });
             if (res.ok) {
                 setMessage('Filme/série cadastrado com sucesso!');
-                setForm({ title: '', type: 'Filme', genre: '', year: '', rating: '', synopsis: '', poster: '' });
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);
@@ -117,82 +118,7 @@ export default function UserMenu() {
                             <X size={24} />
                         </button>
                         <h2 className="text-2xl font-bold text-red-500 mb-4">Adicionar Filme/Série</h2>
-                        <form onSubmit={handleFormSubmit} className="flex flex-col gap-3">
-                            <input
-                                type="text"
-                                name="title"
-                                placeholder="Título"
-                                value={form.title}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                                required
-                            />
-                            <select
-                                name="type"
-                                value={form.type}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                            >
-                                <option value="Filme">Filme</option>
-                                <option value="Série">Série</option>
-                            </select>
-                            <input
-                                type="text"
-                                name="genre"
-                                placeholder="Gêneros (separados por vírgula)"
-                                value={form.genre}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                                required
-                            />
-                            <input
-                                type="number"
-                                name="year"
-                                placeholder="Ano"
-                                value={form.year}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                                required
-                            />
-                            <input
-                                type="number"
-                                name="rating"
-                                placeholder="Nota (ex: 4.5)"
-                                step="0.1"
-                                min="0"
-                                max="5"
-                                value={form.rating}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                                required
-                            />
-                            <textarea
-                                name="synopsis"
-                                placeholder="Sinopse"
-                                value={form.synopsis}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="poster"
-                                placeholder="URL do Poster"
-                                value={form.poster}
-                                onChange={handleFormChange}
-                                className="bg-gray-800 text-white p-2 rounded"
-                                required
-                            />
-                            {message && (
-                                <div className="text-center text-red-400 font-semibold">{message}</div>
-                            )}
-                            <button
-                                type="submit"
-                                className="bg-red-500 text-white py-2 rounded hover:bg-red-600 transition mt-2"
-                            >
-                                Salvar
-                            </button>
-                        </form>
+                        <MovieForm onSubmit={handleFormSubmit} message={message} setMessage={setMessage} />
                     </div>
                 </div>
             )}
