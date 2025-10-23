@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
-import FavoriteButton from '../components/favoriteButton';
 import MovieClient from './client'
 import { Movie } from '@/models/movie';
 

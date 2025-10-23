@@ -6,6 +6,7 @@ import FavoriteButton from '../components/favoriteButton';
 import { ArrowLeft, Wrench } from 'lucide-react';
 import { Movie } from '@/models/movie';
 import Link from 'next/link';
+import ReviewSection from '../components/ReviewSection';
 
 export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movie, isFavorite: boolean, apiUrl: string }) {
     const [editing, setEditing] = useState(false);
@@ -105,6 +106,7 @@ export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movi
                     </>
                 )}
             </div>
+            <ReviewSection movieId={movie._id} apiUrl={apiUrl} />
         </div>
     );
 }
