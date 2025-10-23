@@ -8,6 +8,7 @@ import { Movie } from '@/models/movie';
 import Link from 'next/link';
 import ReviewSection from '../components/ReviewSection';
 import Cookies from 'js-cookie';
+import { getApiUrl } from '@/utils/getApiUrl';
 
 export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movie, isFavorite: boolean, apiUrl: string }) {
     const [editing, setEditing] = useState(false);
@@ -47,7 +48,7 @@ export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movi
         async function fetchUser() {
             const token = Cookies.get('authToken');
             if (!token) return;
-            const res = await fetch(`${apiUrl}/api/users/me`, {
+            const res = await fetch(`${getApiUrl()}/api/users/me`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {

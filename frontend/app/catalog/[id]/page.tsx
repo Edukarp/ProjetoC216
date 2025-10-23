@@ -2,8 +2,9 @@ import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
 import MovieClient from './client'
 import { Movie } from '@/models/movie';
+import { getApiUrl } from '@/utils/getApiUrl';
 
-const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003';
+const apiUrl = getApiUrl();
 
 
 async function getMovie(id: string): Promise<Movie | null> {

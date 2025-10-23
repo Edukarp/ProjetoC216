@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { Pencil, Trash2 } from 'lucide-react';
+import { getApiUrl } from '@/utils/getApiUrl';
 
 interface Review {
     _id: string;
@@ -30,7 +31,7 @@ export default function ReviewSection({
 
     useEffect(() => {
         async function fetchReviews() {
-            const res = await fetch(`${apiUrl}/api/reviews/movie/${movieId}`);
+            const res = await fetch(`${getApiUrl()}/api/reviews/movie/${movieId}`);
             if (res.ok) {
                 const data = await res.json();
                 setReviews(data);
@@ -38,7 +39,7 @@ export default function ReviewSection({
             setLoading(false);
         }
         fetchReviews();
-    }, [movieId, apiUrl]);
+    }, [movieId]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,7 +51,7 @@ export default function ReviewSection({
         }
         if (editingReview) {
             // Atualizar review
-            const res = await fetch(`${apiUrl}/api/reviews/${editingReview._id}`, {
+            const res = await fetch(`${getApiUrl()}/api/reviews/${editingReview._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ export default function ReviewSection({
             return;
         }
         // Criar review
-        const res = await fetch(`${apiUrl}/api/reviews`, {
+        const res = await fetch(`${getApiUrl()}/api/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ export default function ReviewSection({
     async function handleDeleteReview(id: string) {
         const token = Cookies.get('authToken');
         if (!token) return;
-        const res = await fetch(`${apiUrl}/api/reviews/${id}`, {
+        const res = await fetch(`${getApiUrl()}/api/reviews/${id}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` },
         });

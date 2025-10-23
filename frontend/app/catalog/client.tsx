@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import MovieCarousel from './components/carousel';
 import Cookies from 'js-cookie';
+import { getApiUrl } from '@/utils/getApiUrl';
 
-const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003';
+const apiUrl = getApiUrl();
 
 type Movie = {
   _id: string;

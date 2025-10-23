@@ -17,7 +17,9 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - NEXT_PUBLIC_BACKEND_URL=http://backend:3003
+    - NEXT_PUBLIC_BACKEND_URL=http://backend:3003
+    - NEXT_PUBLIC_BACKEND_URL_BROWSER=http://localhost:3003
+    
     depends_on:
       - backend
 
