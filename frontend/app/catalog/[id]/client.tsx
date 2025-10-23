@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MovieForm, { MovieFormState } from '../components/movieForm';
 import FavoriteButton from '../components/favoriteButton';
 import { ArrowLeft, Wrench } from 'lucide-react';
 import { Movie } from '@/models/movie';
 import Link from 'next/link';
 import ReviewSection from '../components/ReviewSection';
+import Cookies from 'js-cookie';
 
 export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movie, isFavorite: boolean, apiUrl: string }) {
     const [editing, setEditing] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
 
     const handleEditSubmit = async (form: MovieFormState) => {
         setMessage(null);
@@ -40,6 +42,21 @@ export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movi
             setMessage('Erro de conexão com o servidor.');
         }
     };
+
+    useEffect(() => {
+        async function fetchUser() {
+            const token = Cookies.get('authToken');
+            if (!token) return;
+            const res = await fetch(`${apiUrl}/api/users/me`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const user = await res.json();
+                setUserId(user._id);
+            }
+        }
+        fetchUser();
+    }, [apiUrl]);
 
     return (
         <div className="min-h-screen bg-black text-white flex flex-col items-center py-12 px-4">
@@ -106,7 +123,7 @@ export default function MovieClient({ movie, isFavorite, apiUrl }: { movie: Movi
                     </>
                 )}
             </div>
-            <ReviewSection movieId={movie._id} apiUrl={apiUrl} />
+            <ReviewSection movieId={movie._id} apiUrl={apiUrl} userId={userId} />
         </div>
     );
 }

@@ -2,21 +2,31 @@
 
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { Pencil, Trash2 } from 'lucide-react';
 
 interface Review {
     _id: string;
-    user: { name: string };
+    user: { _id: string; name: string };
     rating: number;
     comment: string;
     createdAt: string;
 }
 
-export default function ReviewSection({ movieId, apiUrl }: { movieId: string, apiUrl: string }) {
+export default function ReviewSection({
+    movieId,
+    apiUrl,
+    userId,
+}: {
+    movieId: string;
+    apiUrl: string;
+    userId: string | null;
+}) {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(5);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState<string | null>(null);
+    const [editingReview, setEditingReview] = useState<Review | null>(null);
 
     useEffect(() => {
         async function fetchReviews() {
@@ -38,25 +48,72 @@ export default function ReviewSection({ movieId, apiUrl }: { movieId: string, ap
             setMessage('Você precisa estar logado para comentar.');
             return;
         }
+        if (editingReview) {
+            // Atualizar review
+            const res = await fetch(`${apiUrl}/api/reviews/${editingReview._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ rating, comment }),
+            });
+            if (res.ok) {
+                setReviews(reviews =>
+                    reviews.map(r =>
+                        r._id === editingReview._id ? { ...r, rating, comment } : r
+                    )
+                );
+                setEditingReview(null);
+                setComment('');
+                setRating(5);
+                setMessage('Review atualizada!');
+            } else {
+                setMessage('Erro ao atualizar review.');
+            }
+            return;
+        }
+        // Criar review
         const res = await fetch(`${apiUrl}/api/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ movie: movieId, rating, comment })
+            body: JSON.stringify({ movie: movieId, rating, comment }),
         });
         if (res.ok) {
             setComment('');
             setRating(5);
             setMessage('Review enviada!');
-            // Atualiza reviews
             const data = await res.json();
             setReviews(reviews => [data, ...reviews]);
+            window.location.reload();
         } else {
             setMessage('Erro ao enviar review.');
         }
     };
+
+    // Deletar review
+    async function handleDeleteReview(id: string) {
+        const token = Cookies.get('authToken');
+        if (!token) return;
+        const res = await fetch(`${apiUrl}/api/reviews/${id}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+            setReviews(reviews => reviews.filter(r => r._id !== id));
+        } else {
+            setMessage('Erro ao excluir review.');
+        }
+    }
+
+    function handleEditReview(review: Review) {
+        setEditingReview(review);
+        setComment(review.comment);
+        setRating(review.rating);
+    }
 
     return (
         <div className="w-full max-w-3xl mx-auto mt-8 bg-gray-900 rounded-lg p-6 shadow-lg">
@@ -75,6 +132,24 @@ export default function ReviewSection({ movieId, apiUrl }: { movieId: string, ap
                                     <span className="font-semibold text-white">{review.user?.name || 'Usuário'}</span>
                                     <span className="text-yellow-400 font-bold">{review.rating} ★</span>
                                     <span className="text-gray-400 text-xs">{new Date(review.createdAt).toLocaleDateString()}</span>
+                                    {userId && review.user && review.user._id === userId && (
+                                        <div className="flex gap-2 ml-auto">
+                                            <button
+                                                title="Editar"
+                                                className="p-1 rounded transition"
+                                                onClick={() => handleEditReview(review)}
+                                            >
+                                                <Pencil className="w-4 h-4 text-white cursor-pointer" />
+                                            </button>
+                                            <button
+                                                title="Excluir"
+                                                className="p-1 rounded  transition"
+                                                onClick={() => handleDeleteReview(review._id)}
+                                            >
+                                                <Trash2 className="w-4 h-4 text-red-600 cursor-pointer" />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="text-gray-200 mt-1">{review.comment}</div>
                             </li>
@@ -92,7 +167,7 @@ export default function ReviewSection({ movieId, apiUrl }: { movieId: string, ap
                                      ${rating === val
                                             ? 'bg-red-600 text-black border-red-600'
                                             : 'bg-gray-800 text-white border-gray-600 hover:bg-red-500 hover:text-black hover:border-red-500'}`}
-                                        >
+                                >
                                     {val}
                                 </button>
                             ))}
@@ -109,8 +184,21 @@ export default function ReviewSection({ movieId, apiUrl }: { movieId: string, ap
                             type="submit"
                             className="bg-red-500 text-white py-2 rounded hover:bg-red-600 transition"
                         >
-                            Enviar review
+                            {editingReview ? 'Atualizar review' : 'Enviar review'}
                         </button>
+                        {editingReview && (
+                            <button
+                                type="button"
+                                className="bg-gray-700 text-white py-1 px-3 rounded hover:bg-gray-600 transition"
+                                onClick={() => {
+                                    setEditingReview(null);
+                                    setComment('');
+                                    setRating(5);
+                                }}
+                            >
+                                Cancelar edição
+                            </button>
+                        )}
                     </form>
                 </>
             )}
