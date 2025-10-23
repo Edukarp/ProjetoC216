@@ -68,7 +68,7 @@ export default function CatalogClient() {
   }
 
   return (
-    <section className="py-8 px-4 border-t border-red-600">
+    <section className="py-6 px-3 border-t border-red-600">
       {favorites.length > 0 && (
         <MovieCarousel title="Seus Favoritos" items={favorites} renderStars={renderStars} />
       )}

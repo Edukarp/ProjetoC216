@@ -18,9 +18,9 @@ interface MovieCarouselProps {
 
 const MovieCarousel = ({ title, items, renderStars }: MovieCarouselProps) => {
   return (
-    <div className="mb-12">
+    <div className="mb-4">
       <h2 className="text-2xl font-bold text-red-500 mb-4">{title}</h2>
-      <div className="flex overflow-x-auto gap-6 pb-4">
+      <div className="flex overflow-x-auto gap-5 pb-4 ">
         {items.map(movie => (
           <Link
             key={movie._id}
@@ -31,7 +31,7 @@ const MovieCarousel = ({ title, items, renderStars }: MovieCarouselProps) => {
             <img
               src={movie.poster}
               alt={movie.title}
-              className="w-full h-72 object-cover"
+              className="w-full h-96 object-cover"
             />
             <div className="p-4">
               <h3 className="text-lg font-bold text-red-500 mb-2">{movie.title}</h3>
