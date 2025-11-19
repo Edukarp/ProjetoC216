@@ -10,7 +10,8 @@ Esse projeto é um catalogo de avaliações de filmes e series, onde o usuário 
 - Favoritar o filme, atualizando a pagina principal
 - Dar nota ao filme
 - Para **Admins** é possivel adicionar, editar e deletar filmes do site
-        **Nota**: o sistema de admin não foi implementado então todo usuário consegue fazer isso (com intuito de mostrar as funcionalidades)
+ 
+**Nota**: o sistema de admin não foi implementado então todo usuário consegue fazer isso (com intuito de mostrar as funcionalidades)
 
 ## Para Execução 
 
@@ -24,7 +25,7 @@ JWT_SECRET=3f8d1a7e-4c9b-4e2a-9b2e-8d6f7c2a1b9e$!@XyZ2025!@%aBcDe
 ```
  **Importante**: Como o ropositório é privado, apenas para fins de facilitar a execução foi passado as variaveis de ambiente explicitas dessa forma.
 
-2. Na root do projeto abra o terminal e digite os comando abaixo e espere ele terminar de executar:
+2. Na root do projeto abra o terminal e digite o comando abaixo e aguarde até ele terminar de executar:
 
 ```
 docker-compose up --build
