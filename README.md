@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MyCatalog
 
-## Getting Started
+Esse projeto é um catalogo de avaliações de filmes e series, onde o usuário após realizar o cadastro/login consegue realizar reviews, dar notas e favoritar seus filmes e series preferidos.
 
-First, run the development server:
+## Features
+- Criar conta ou realizar o login (com criptografia das senhas)
+- Catalogo de filmes e series dividios por diferentes gêneros
+- Escrever reviews com possibilidade de editar ou apagar-la
+- Ver a review de outros usuários
+- Favoritar o filme, atualizando a pagina principal
+- Dar nota ao filme
+- Para **Admins** é possivel adicionar, editar e deletar filmes do site
+        **Nota**: o sistema de admin não foi implementado então todo usuário consegue fazer isso (com intuito de mostrar as funcionalidades)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Para Execução 
+
+1. Crie um arquivo **.env** dentro da pasta **./backend**, em seguida aplique as seguintes variaveis de ambiente:
+
+```
+PORT=3003
+
+MONGO_URI =mongodb+srv://edukarp10_db_user:Rhjh8w8tKvSKsWbU@cluster0.3mbpxjo.mongodb.net/
+JWT_SECRET=3f8d1a7e-4c9b-4e2a-9b2e-8d6f7c2a1b9e$!@XyZ2025!@%aBcDe
+```
+ **Importante**: Como o ropositório é privado, apenas para fins de facilitar a execução foi passado as variaveis de ambiente explicitas dessa forma.
+
+2. Na root do projeto abra o terminal e digite os comando abaixo e espere ele terminar de executar:
+
+```
+docker-compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Em seguida, abra [http://localhost:3001](http://localhost:3001) para vizualizar em seu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
